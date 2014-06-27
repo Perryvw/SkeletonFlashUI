@@ -1,28 +1,36 @@
 ﻿package {
 	import flash.display.MovieClip;
-	import flash.events.*;
-	import flash.net.URLRequest;
 
+	//import some stuff from the valve lib
 	import ValveLib.Globals;
 	import ValveLib.ResizeManager;
 	
 	public class CustomUI extends MovieClip{
 		
+		//these three variables are required by the engine
 		public var gameAPI:Object;
 		public var globals:Object;
 		public var elementName:String;
-						
+		
+		//constructor, you usually will use onLoaded() instead
 		public function CustomUI() : void {
 		}
-				
+		
+		//this function is called
 		public function onLoaded() : void {			
+			//make this UI visible
 			visible = true;
 			
+			//let the client rescale the UI
 			Globals.instance.resizeManager.AddListener(this);
+			
+			//this is not needed, but it shows you your UI has loaded (needs 'scaleform_spew 1' in console)
+			trace("Custom UI loaded!");
 		}
-				
+		
+		//this handles the resizes - credits to SinZ
 		public function onResize(re:ResizeManager) : * {
-			//handle the resize event - thanks to SinZ
+			//calculate the scaling ratio in the X and Y direction and apply it to the state
 			var resWidth:int = 0;
 			var resHeight:int = 0;
 			if (re.IsWidescreen()) {
@@ -46,6 +54,10 @@
             // Scale hud to screen
             this.scaleX = re.ScreenWidth/maxStageWidth;
             this.scaleY = re.ScreenHeight/maxStageHeight;
+			
+			//You will probably want to scale your elements by 1/scale to keep their original resolution
+			
+			//Elements are aligned to the top left of the screen in the engine, if you have panels that are not, reposition them here.
 		}
 	}
 }
