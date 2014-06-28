@@ -16,7 +16,7 @@
 		public function CustomUI() : void {
 		}
 		
-		//this function is called
+		//this function is called when the UI is loaded
 		public function onLoaded() : void {			
 			//make this UI visible
 			visible = true;
