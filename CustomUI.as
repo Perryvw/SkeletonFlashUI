@@ -28,36 +28,34 @@
 			trace("Custom UI loaded!");
 		}
 		
-		//this handles the resizes - credits to SinZ
+		//this handles the resizes - credits to Nullscope
 		public function onResize(re:ResizeManager) : * {
-			//calculate the scaling ratio in the X and Y direction and apply it to the state
-			var resWidth:int = 0;
-			var resHeight:int = 0;
-			if (re.IsWidescreen()) {
-				if (re.Is16by9()) {
-					//16:9
-					resWidth = 1600;
-					resHeight = 900;
-				} else {
-					//16:10
-					resWidth = 1280;
-					resHeight = 768;
-				}
-			} else {
-				//4:3
-				resWidth = 1024;
-				resHeight = 768;
-			}
+			var rm = Globals.instance.resizeManager;
+            var currentRatio:Number =  re.ScreenWidth / re.ScreenHeight;
+            var divided:Number;
 
-			var maxStageHeight:int = re.ScreenHeight / re.ScreenWidth * resWidth;
-			var maxStageWidth:int = re.ScreenWidth / re.ScreenHeight * resHeight;
-            // Scale hud to screen
-            this.scaleX = re.ScreenWidth/maxStageWidth;
-            this.scaleY = re.ScreenHeight/maxStageHeight;
-			
-			//You will probably want to scale your elements by 1/scale to keep their original resolution
-			
-			//Elements are aligned to the top left of the screen in the engine, if you have panels that are not, reposition them here.
+            // Set this to your stage height, however, if your assets are too big/small for 1024x768, you can change it
+			// Your original stage height
+            var originalHeight:Number = 900;
+                    
+            if(currentRatio < 1.5)
+            {
+                // 4:3
+                divided = currentRatio / 1.333;
+            }
+            else if(re.Is16by9()){
+                // 16:9
+                divided = currentRatio / 1.7778;
+            } else {
+                // 16:10
+                divided = currentRatio / 1.6;
+            }
+                    
+            var correctedRatio:Number =  re.ScreenHeight / originalHeight * divided;
+                    
+            //You will probably want to scale your elements by here, they keep the same width and height by default.
+            
+            //The engine keeps elements at the same X and Y coordinates even after resizing, you will probably want to adjust that here.
 		}
 	}
 }
