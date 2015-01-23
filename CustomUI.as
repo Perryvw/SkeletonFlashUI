@@ -30,30 +30,15 @@
 		
 		//this handles the resizes - credits to Nullscope
 		public function onResize(re:ResizeManager) : * {
-			var rm = Globals.instance.resizeManager;
-            var currentRatio:Number =  re.ScreenWidth / re.ScreenHeight;
-            var divided:Number;
-
-            // Set this to your stage height, however, if your assets are too big/small for 1024x768, you can change it
-			// Your original stage height
-            var originalHeight:Number = 900;
-                    
-            if(currentRatio < 1.5)
-            {
-                // 4:3
-                divided = currentRatio / 1.333;
-            }
-            else if(re.Is16by9()){
-                // 16:9
-                divided = currentRatio / 1.7778;
-            } else {
-                // 16:10
-                divided = currentRatio / 1.6;
-            }
-                    
-            var correctedRatio:Number =  re.ScreenHeight / originalHeight * divided;
+			
+			var scaleRatioY:Number = re.ScreenHeight/900;
+					
+			if (re.ScreenHeight > 900){
+				scaleRatioY = 1;
+			}
                     
             //You will probably want to scale your elements by here, they keep the same width and height by default.
+            //I recommend scaling both X and Y with scaleRatioY.
             
             //The engine keeps elements at the same X and Y coordinates even after resizing, you will probably want to adjust that here.
 		}
